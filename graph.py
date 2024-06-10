@@ -5,8 +5,11 @@ import os
 
 def application(environ, start_response):
     if environ['PATH_INFO'] == '/graph.png':
+        img_dir = './img'
+        img_path = os.path.join(img_dir, 'graph.png')
+
         try:
-            with open('./img/graph.png', 'rb') as f:
+            with open(img_path, 'rb') as f:
                 response_body = f.read()
         except FileNotFoundError:
             response_body = b'Image not found'
@@ -46,11 +49,9 @@ def application(environ, start_response):
             plt.plot(x, y)
             plt.grid()
 
-            img_dir = './img'
             if not os.path.exists(img_dir):
                 os.makedirs(img_dir)
 
-            img_path = os.path.join(img_dir, 'graph.png')
             fig.savefig(img_path)
             plt.close(fig)
 
